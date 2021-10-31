@@ -1,0 +1,14 @@
+---
+- name: Add IAM users to AWS account
+  hosts: localhost
+  tasks:
+  - name: Create new IAM users with API key
+    community.aws.iam:
+      iam_type: user
+      name: "{{ item }}"
+      state: absent
+      password: "8$av`-U{FtYA\N4f,Qc:"
+      access_key_state: create
+    loop:
+      - my_ansible_user1
+      - my_ansible_user2
