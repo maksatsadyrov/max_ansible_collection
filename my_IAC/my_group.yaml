@@ -2,8 +2,7 @@
 - name: Add Group
   hosts: localhost
   tasks:
-  - name: Create Group
-    community.aws.iam:
-    iam_type: group
-    name: "DevOps"
-    state: present
+  - community.aws.iam:
+      iam_type: group
+      name: "DevOps"
+      state: present
