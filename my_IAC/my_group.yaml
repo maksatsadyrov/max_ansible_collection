@@ -1,0 +1,9 @@
+---
+- name: Add ec2
+  hosts: localhost
+  tasks:
+  - name: Create Group
+    community.aws.iam:
+    iam_type: group
+    name: "DevOps"
+    state: present
