@@ -1,0 +1,61 @@
+--- 
+# Homework #1
+- name: homework task1
+  hosts: all
+  become: true
+  become_method: sudo
+  user: ec2-user
+  tasks: 
+  - name: Add users
+    when: ( ansible_facts['distribution'] == "Amazon" )
+    ansible.builtin.user:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - Bob
+      - Ben
+      - Lisa
+      - Katty 
+  
+  - name: Create SSH keys
+    when: ( ansible_facts['distribution'] == "Amazon" )
+    ansible.builtin.user:
+      name: "{{ item }}"
+      generate_ssh_key: yes
+      ssh_key_bits: 2048
+      ssh_key_file: .ssh/id_rsa
+    with_items:
+      - Bob
+      - Ben
+      - Lisa
+      - Katty
+
+  - name: Get csv file
+    when: ( ansible_facts ['distribution'] == "Amazon" )
+    get_url:
+      url: https://people.sc.fsu.edu/~jburkardt/data/csv/addresses.csv
+      dest: /home/{{ item }}/addresses.csv
+      mode: '0440'
+    with_items:
+      - Bob
+      - Ben
+      - Lisa
+      - Katty  
+  
+  - name: install mariadb prerequisites
+    when: ( ansible_facts['distribution'] == "Ubuntu" )
+    apt: pkg=software-properties-common update_cache=yes
+ 
+  - name: install mariadb
+    when: ( ansible_facts['distribution'] == "Ubuntu" )
+    apt: pkg=mariadb-server update_cache=yes
+    notify: 
+    - Start DB server
+    
+  handlers:
+  - name: Start DB server
+    when: ( ansible_facts['distribution'] == "Amazon" or ansible_facts['distribution'] == "CentOS" )
+    systemd: 
+      name: mariadb 
+      state: restarted
+      enabled: true
