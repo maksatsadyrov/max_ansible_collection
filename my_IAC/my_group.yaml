@@ -1,5 +1,5 @@
 ---
-- name: Add ec2
+- name: Add Group
   hosts: localhost
   tasks:
   - name: Create Group
