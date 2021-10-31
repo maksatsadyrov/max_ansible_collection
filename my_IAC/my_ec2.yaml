@@ -7,6 +7,6 @@
     instance_type: t2.micro
     image: ami-02f5781cba46a5e8a
     wait: yes
-        count: 3
-        region: us-east-2
+    count: 3
+    region: us-east-2
     
