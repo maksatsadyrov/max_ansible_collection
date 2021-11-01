@@ -4,9 +4,6 @@
   become: true
   become_method: sudo 
   user: ec2-user
-  vars: 
-    wordpress_version: "4.0.32"
-    php_version: "5.4.16"
 
   tasks: 
   - name: Install httpd and prerequisites
@@ -16,8 +13,8 @@
       state: present
     with_items:
     - httpd
-    - php-{{ php_version }}
-    - php-mysql-{{ php_version }}
+    - php
+    - php-mysql
     - wget 
     notify: 
     - Start web server
