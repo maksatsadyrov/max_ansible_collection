@@ -4,21 +4,21 @@
   become: true
   become_method: sudo 
   user: ec2-user
-  vars: 
-    wordpress_version: "4.0.32"
-    php_version: "5.4.16"
-
+  
   tasks: 
-  - name: Install httpd and prerequisites
+  - name: Install prerequisites
     when: ( ansible_facts['distribution'] == "Ubuntu" )
     package: 
       name: "{{ item }}" 
       state: present
     with_items:
     - apache2
-    - php-{{ php_version }}
-    - php-mysql-{{ php_version }}
-    - wget 
+    - php
+    - php-mysql
+    - wget
+    - mysql-server
+    - python3-pymysql
+    - libapache2-mod-php
     notify: 
     - Start web server
 
