@@ -1,0 +1,16 @@
+---
+- name: install php
+  hosts: all
+  become: true
+  become_method: sudo
+  tasks:
+  
+  - name: install packages
+    when: ( ansible_facts['distribution'] == "Ubuntu" )
+    apt: name={{ item }} update_cache=yes state=latest
+    with_items:
+      - php
+      - php-mysql
+    
+    
+    

@@ -1,0 +1,20 @@
+---
+- name: install apache
+  hosts: all
+  become: true
+  become_method: sudo
+  tasks:
+  - action: ping
+  - name: install apache
+    when: ( ansible_facts['distribution'] == "Ubuntu" )
+    apt: name=apache2 update_cache=yes state=latest
+    notify: 
+    - Start web server
+
+  handlers:
+  - name: Start web server
+    when: ( ansible_facts['distribution'] == "Ubuntu" )
+    systemd: 
+      name: apache2 
+      state: restarted
+      enabled: true
